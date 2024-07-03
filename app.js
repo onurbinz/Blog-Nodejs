@@ -15,20 +15,9 @@
     const usuarios = require("./routes/usuario")
     const passport = require('passport')
     require("./config/auth")(passport)
-    const connectDB = require('./db');
-    const MongoDBStore = require('connect-mongodb-session')(session);
-    require('dotenv').config();
 
 
 // configurações
-    // Configuração do MongoDB
-        connectDB();
-
-    // Configuração da sessão com connect-mongodb-session
-        const store = new MongoDBStore({
-            uri: process.env.MONGODB_URI,
-            collection: 'sessions'
-        });
     // sessão
         app.use(session({
             secret: "cursodenode",
@@ -55,12 +44,12 @@
     // public
         app.use(express.static(path.join(__dirname + "/public")))
     // mongoose
-        /* mongoose.Promise = global.Promise
+        mongoose.Promise = global.Promise
         mongoose.connect("mongodb://localhost/blogapp").then(() => {
             console.log("BD conectado...")
         }).catch((err) => {
             console.log("Erro ao se conectar com o BD: "+err)
-        }) */
+        })
 
 // rotas
     app.get("/", (req, res) => {
@@ -121,7 +110,7 @@
     app.use('/admin', admin)
     app.use('/usuarios', usuarios)
 
-const port = process.env.PORT || 8081
+const port = 8081
 app.listen(port, ()=>{
     console.log("Servidor rodando...")
 })
