@@ -15,7 +15,7 @@
     const usuarios = require("./routes/usuario")
     const passport = require('passport')
     require("./config/auth")(passport)
-    const connectDB = require('./db'); // Certifique-se de ajustar o caminho conforme necessário
+    const connectDB = require('./db');
     require('dotenv').config();
 
 
