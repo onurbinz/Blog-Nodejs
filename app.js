@@ -15,6 +15,8 @@
     const usuarios = require("./routes/usuario")
     const passport = require('passport')
     require("./config/auth")(passport)
+    const connectDB = require('./db'); // Certifique-se de ajustar o caminho conforme necessário
+    require('dotenv').config();
 
 
 // configurações
@@ -44,12 +46,13 @@
     // public
         app.use(express.static(path.join(__dirname + "/public")))
     // mongoose
-        mongoose.Promise = global.Promise
+        connectDB();
+        /* mongoose.Promise = global.Promise
         mongoose.connect("mongodb://localhost/blogapp").then(() => {
             console.log("BD conectado...")
         }).catch((err) => {
             console.log("Erro ao se conectar com o BD: "+err)
-        })
+        }) */
 
 // rotas
     app.get("/", (req, res) => {
@@ -110,7 +113,7 @@
     app.use('/admin', admin)
     app.use('/usuarios', usuarios)
 
-const port = 8081
+const port = process.env.PORT || 8081
 app.listen(port, ()=>{
     console.log("Servidor rodando...")
 })
