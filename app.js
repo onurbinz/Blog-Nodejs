@@ -16,10 +16,19 @@
     const passport = require('passport')
     require("./config/auth")(passport)
     const connectDB = require('./db');
+    const MongoDBStore = require('connect-mongodb-session')(session);
     require('dotenv').config();
 
 
 // configurações
+    // Configuração do MongoDB
+        connectDB();
+
+    // Configuração da sessão com connect-mongodb-session
+        const store = new MongoDBStore({
+            uri: process.env.MONGODB_URI,
+            collection: 'sessions'
+        });
     // sessão
         app.use(session({
             secret: "cursodenode",
@@ -46,7 +55,6 @@
     // public
         app.use(express.static(path.join(__dirname + "/public")))
     // mongoose
-        connectDB();
         /* mongoose.Promise = global.Promise
         mongoose.connect("mongodb://localhost/blogapp").then(() => {
             console.log("BD conectado...")
